@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Message You ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffd6e5, #fff5f8);
+    color: #444;
+    overflow-x: hidden;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    padding: 30px 22px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(255, 80, 130, .25);
+}
+
+.hidden {
+    display: none;
+}
+
+.photo {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #ff8caf;
+    margin-bottom: 15px;
+}
+
+h1 {
+    color: #ff4f87;
+    margin: 15px 0;
+}
+
+h2 {
+    color: #ff5f90;
+    margin: 15px 0;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 14px;
+    margin: 7px 0;
+    border: 2px solid #ffc3d5;
+    border-radius: 15px;
+    outline: none;
+    font-size: 16px;
+}
+
+textarea {
+    height: 140px;
+    resize: none;
+}
+
+button {
+    border: none;
+    padding: 13px 22px;
+    margin: 7px;
+    border-radius: 25px;
+    background: #ff5b8c;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: #ff3975;
+}
+
+.no {
+    background: #777;
+}
+
+.option-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.option {
+    padding: 20px 10px;
+    background: #fff5f8;
+    border: 2px solid #ffd1df;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.option:hover,
+.option.selected {
+    background: #ffe0eb;
+    border-color: #ff4f87;
+    transform: translateY(-3px);
+}
+
+.emoji {
+    display: block;
+    font-size: 38px;
+    margin-bottom: 8px;
+}
+
+.summary {
+    background: #fff0f5;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.love {
+    font-size: 40px;
+    font-weight: bold;
+    color: #ff4f87;
+    margin: 20px 0;
+    animation: heartbeat 1.3s infinite;
+}
+
+.error {
+    color: #e6395f;
+    margin-top: 10px;
+}
+
+.heart {
+    position: fixed;
+    bottom: -40px;
+    font-size: 25px;
+    pointer-events: none;
+    animation: naik 5s linear forwards;
+}
+
+@keyframes naik {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes heartbeat {
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@media(max-width:400px) {
+    .option-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section class="page" id="loginPage">
+
+<div class="card">
+
+    <!-- GANTI FOTO -->
+    <img
+        src="kamu.jpeg"
+        class="photo"
+        alt="Foto">
+
+    <h2>Login Dulu Ya 💕</h2>
+
+    <p>Masukkan PIN untuk membuka pesan ❤️</p>
+
+    <input
+        type="password"
+        id="pin"
+        maxlength="6"
+        inputmode="numeric"
+        placeholder="Masukkan PIN 6 digit">
+
+    <button onclick="login()">
+        Masuk ❤️
+    </button>
+
+    <div id="error" class="error"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= SAYANG ================= -->
+
+<section class="page hidden" id="lovePage">
+
+<div class="card">
+
+    <div style="font-size:80px;">
+        🧸
+    </div>
+
+    <h1>Kamu Sayang Aku? ❤️</h1>
+
+    <button onclick="sayang()">
+        Sayang Banget ❤️
+    </button>
+
+    <button class="no" onclick="tidakSayang()">
+        Engga 😝
+    </button>
+
+    <div class="love" id="loveText">
+        ❤️
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ================= DATE ================= -->
+
+<section class="page hidden" id="datePage">
+
+<div class="card">
+
+    <div style="font-size:75px;">
+        💕
+    </div>
+
+    <h1>Mau Date Kemana? ❤️</h1>
+
+    <div class="option-container">
+
+        <div class="option"
+             onclick="pilihTempat(this,'Bioskop 🎬')">
+            <span class="emoji">🎬</span>
+            <b>Bioskop</b>
+        </div>
+
+        <div class="option"
+             onclick="pilihTempat(this,'Coffee Date ☕')">
+            <span class="emoji">☕</span>
+            <b>Coffee Date</b>
+        </div>
+
+        <div class="option"
+             onclick="pilihTempat(this,'Dinner Date 🍽️')">
+            <span class="emoji">🍽️</span>
+            <b>Dinner Date</b>
+        </div>
+
+        <div class="option"
+             onclick="pilihTempat(this,'Makan-Makan 🍜')">
+            <span class="emoji">🍜</span>
+            <b>Makan-Makan</b>
+        </div>
+
+    </div>
+
+    <h2>Pilih Tanggal & Jam 💖</h2>
+
+    <input type="date" id="tanggal">
+
+    <input type="time" id="jam">
+
+    <p id="tanggalText">
+        Belum memilih tanggal dan jam ❤️
+    </p>
+
+    <button onclick="lanjut()">
+        Lanjut 💌
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- ================= MESSAGE ================= -->
+
+<section class="page hidden" id="messagePage">
+
+<div class="card">
+
+    <h1>💌 Tulis Pesan 💌</h1>
+
+    <div class="summary" id="summary"></div>
+
+    <textarea
+        id="message"
+        placeholder="Tulis pesan untuk aku di sini... ❤️">
+    </textarea>
+
+    <button onclick="kirim()">
+        Kirim ke WhatsApp 💚
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- ================= RESULT ================= -->
+
+<section class="page hidden" id="resultPage">
+
+<div class="card">
+
+    <div style="font-size:80px;">
+        💖
+    </div>
+
+    <h1>Terima Kasih ❤️</h1>
+
+    <p>
+        Pesan kamu sudah disiapkan untuk dikirim
+        melalui WhatsApp.
+    </p>
+
+    <div class="love">
+        I LOVE YOU ❤️
+    </div>
+
+    <button onclick="location.reload()">
+        Kembali 💕
+    </button>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* =================================================
+   PENGATURAN WEBSITE
+   ================================================= */
+
+/* PIN WEBSITE */
+const PIN_BENAR = "152316";
+
+/*
+   NOMOR WHATSAPP PEMILIK WEBSITE
+
+   Contoh:
+   081234567890
+
+   Ditulis:
+   6281234567890
+
+   JANGAN memakai tanda +
+   JANGAN memakai angka 0 di awal
+*/
+const NOMOR_WA = "6282185462270";
+
+
+let tempat = "";
+
+
+/* =================================================
+   LOGIN
+   ================================================= */
+
+function login() {
+
+    const pin =
+        document.getElementById("pin").value;
+
+    if (pin === PIN_BENAR) {
+
+        document
+            .getElementById("loginPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("lovePage")
+            .classList.remove("hidden");
+
+        hearts();
+
+    } else {
+
+        document
+            .getElementById("error")
+            .innerText =
+            "PIN salah 😝 Coba lagi ❤️";
+    }
+}
+
+
+/* =================================================
+   SAYANG
+   ================================================= */
+
+function sayang() {
+
+    document
+        .getElementById("loveText")
+        .innerHTML =
+        "I LOVE YOU TOO ❤️🥰";
+
+    hearts();
+
+    setTimeout(() => {
+
+        document
+            .getElementById("lovePage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("datePage")
+            .classList.remove("hidden");
+
+    }, 1500);
+}
+
+
+function tidakSayang() {
+
+    alert(
+        "Yakin bilang engga? 😝❤️"
+    );
+
+    document
+        .getElementById("loveText")
+        .innerHTML =
+        "Hehehe aku tahu kamu sayang ❤️";
+
+    hearts();
+}
+
+
+/* =================================================
+   PILIH TEMPAT
+   ================================================= */
+
+function pilihTempat(element, nama) {
+
+    document
+        .querySelectorAll(".option")
+        .forEach(item => {
+            item.classList.remove("selected");
+        });
+
+    element.classList.add("selected");
+
+    tempat = nama;
+}
+
+
+/* =================================================
+   TANGGAL & JAM
+   ================================================= */
+
+document
+    .getElementById("tanggal")
+    .addEventListener(
+        "change",
+        updateTanggal
+    );
+
+document
+    .getElementById("jam")
+    .addEventListener(
+        "change",
+        updateTanggal
+    );
+
+
+function updateTanggal() {
+
+    const tanggal =
+        document.getElementById("tanggal").value;
+
+    const jam =
+        document.getElementById("jam").value;
+
+    if (tanggal && jam) {
+
+        const date =
+            new Date(
+                tanggal + "T" + jam
+            );
+
+        const format =
+            date.toLocaleDateString(
+                "id-ID",
+                {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                }
+            );
+
+        document
+            .getElementById("tanggalText")
+            .innerHTML =
+            "📅 " + format +
+            "<br>⏰ " + jam;
+    }
+}
+
+
+/* =================================================
+   LANJUT KE PESAN
+   ================================================= */
+
+function lanjut() {
+
+    const tanggal =
+        document.getElementById("tanggal").value;
+
+    const jam =
+        document.getElementById("jam").value;
+
+    if (!tempat) {
+
+        alert(
+            "Pilih tempat date dulu ❤️"
+        );
+
+        return;
+    }
+
+    if (!tanggal || !jam) {
+
+        alert(
+            "Pilih tanggal dan jam dulu ❤️"
+        );
+
+        return;
+    }
+
+    document
+        .getElementById("datePage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("messagePage")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("summary")
+        .innerHTML =
+        "<b>📍 Tempat:</b> " +
+        tempat +
+        "<br><br>" +
+
+        "<b>📅 Tanggal:</b> " +
+        tanggal +
+        "<br><br>" +
+
+        "<b>⏰ Jam:</b> " +
+        jam;
+}
+
+
+/* =================================================
+   KIRIM KE WHATSAPP
+   ================================================= */
+
+function kirim() {
+
+    const message =
+        document
+        .getElementById("message")
+        .value
+        .trim();
+
+
+    if (message === "") {
+
+        alert(
+            "Tulis pesannya dulu ya ❤️"
+        );
+
+        return;
+    }
+
+
+    const tanggal =
+        document.getElementById("tanggal").value;
+
+    const jam =
+        document.getElementById("jam").value;
+
+
+    /*
+       Pesan yang akan muncul
+       otomatis di WhatsApp
+    */
+
+    const pesan =
+`💌 ADA PESAN BARU ❤️
+
+📍 Tempat:
+${tempat}
+
+📅 Tanggal:
+${tanggal}
+
+⏰ Jam:
+${jam}
+
+💬 Pesan:
+${message}
+
+❤️ Message You`;
+
+
+    const link =
+        "https://wa.me/" +
+        NOMOR_WA +
+        "?text=" +
+        encodeURIComponent(pesan);
+
+
+    /*
+       Membuka WhatsApp
+    */
+
+    window.open(
+        link,
+        "_blank"
+    );
+
+
+    /*
+       Tampilkan halaman selesai
+    */
+
+    document
+        .getElementById("messagePage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("resultPage")
+        .classList.remove("hidden");
+
+    hearts();
+}
+
+
+/* =================================================
+   ANIMASI HATI
+   ================================================= */
+
+function hearts() {
+
+    for (let i = 0; i < 15; i++) {
+
+        setTimeout(() => {
+
+            const heart =
+                document.createElement("div");
+
+            heart.className = "heart";
+
+            const emojis =
+                ["❤️","💕","💖","💗","💓"];
+
+            heart.innerHTML =
+                emojis[
+                    Math.floor(
+                        Math.random() *
+                        emojis.length
+                    )
+                ];
+
+            heart.style.left =
+                Math.random() * 100 + "vw";
+
+            heart.style.animationDuration =
+                (3 + Math.random() * 3) + "s";
+
+            document.body.appendChild(
+                heart
+            );
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+
+        }, i * 150);
+    }
+}
+
+</script>
+
+</body>
+</html>
